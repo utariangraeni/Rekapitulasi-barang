@@ -36,5 +36,9 @@ if (isset($_POST['deleteUser']) && !empty($_POST['deleteUser'])) {
         echo "Gagal mengedit user.";
     }
 }
+else {
+    // Redirect to user view if no action is specified
+    header("Location: ../../VIEW/USER/USER_VIEW.php");
+}
 
 
