@@ -1,5 +1,5 @@
 <?php
-include '../../CONTROL/USER/USER_CONTROL.php';
+include '../../MODEL/USER/User_Model.php';
 $allUser = showAllUser();
 ?>
 
