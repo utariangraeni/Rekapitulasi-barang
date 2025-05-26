@@ -31,14 +31,27 @@ function addUser($namaUser, $passUser, $noTelp)
 }
 
 
-function deleteUser($deleteUser)
+function deleteUser($delUser)
 {
     $conn = dbcon();
     $tsql = "DELETE KS_USER WHERE nama = ?";
-    $params = array($deleteUser);
+    $params = [$delUser];
     $stmt = sqlsrv_query($conn, $tsql, $params);
     if ($stmt === false) {
         die(print_r(sqlsrv_errors(), true));
     }
     return true;
+}
+
+function editUser($editnamaUser, $editPass, $editNoTelp)
+{
+    $conn = dbcon();
+    $tsql = "UPDATE KS_USER SET pass = ?, no_telp = ? WHERE nama = ?";
+    $params = array($editPass, $editNoTelp, $editnamaUser);
+    $stmt = sqlsrv_query($conn, $tsql, $params);
+    if ($stmt === false) {
+        die(print_r(sqlsrv_errors(), true));
+    }
+    sqlsrv_free_stmt($stmt);
+    return ['success' => true, 'message' => 'User  successfully updated'];
 }
