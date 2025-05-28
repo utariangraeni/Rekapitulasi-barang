@@ -12,7 +12,7 @@ function dbcon()
     $conn = sqlsrv_connect($serverName, $connectionInfo);
 
     if ($conn) {
-        // echo "Sampun connect lur.<br />";
+        echo "Sudah connect lur.<br />";
     } else {
         echo "Connection could not be established.<br />";
     }
