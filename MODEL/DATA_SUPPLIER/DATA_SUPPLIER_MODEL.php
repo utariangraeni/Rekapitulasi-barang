@@ -42,4 +42,18 @@ function editSupplier($namaEdit, $alamatEdit, $noEdit)
     } else {
         echo "BERHASIL UPDATE";
     }
+
+
+}
+
+function deleteSupplier($utariDeleteSupplier)
+{
+    $conn = dbcon();
+    $tsql = "DELETE KS_SUPPLIER WHERE nama_supplier = ?";
+    $params = [$utariDeleteSupplier];
+    $stmt = sqlsrv_query($conn, $tsql, $params);
+    if ($stmt === false) {
+        die(print_r(sqlsrv_errors(), true));
+    }
+    return true;
 }

@@ -16,7 +16,7 @@ $allUser = showAllUser();
 </head>
 <style>
     table {
-        width: 50%;
+        width: 100%;
         border-collapse: collapse;
         border: black 1px solid;
         text-align: center;
@@ -31,91 +31,129 @@ $allUser = showAllUser();
     }
 
     tr,
-    th,
+    th {
+    text-align: left;
+    background-color: yellow;
+    border:black 1px solid;
+
+    }
+
     td {
         border: black 1px solid;
+        background-color: aliceblue;
+        text-align: center;
+        vertical-align: middle;
+    }
+    button {
+        background-color: blue;
+        color: #f7f8fa;
+        margin: 10px;
     }
 
 </style>
-
 <body>
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary tombolPLus utariplus" id="tombolTambah" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Add User
+    <button type="button" class="btn btn-primary tombolPLus utari" id="tombolTambah" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Add a New User
     </button>
 
     <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+         <div class="modal-dialog">
             <div class="modal-content">
+      
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="../../CONTROL/USER/USER_CONTROL.php" method="post">
-                        <div>
-                            <label for="namaUser">NAMA</label>
-                            <input type="text" name="namaUser" id="namaUser">
-                        </div>
-                        <div>
-                            <label for="passUser">PASSWORD</label>
-                            <input type="text" name="passUser" id="passUser">
-                        </div>
-                        <div>
-                            <label for="noUser">Nomer Telp</label>
-                            <input type="number" name="noUser" id="noUser" placeholder="example : 0123456789">
-                        </div>
+                 <h5 class="modal-title" id="staticBackdropLabel">Masukkan User</h5>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                  <form action="../../CONTROL/USER/USER_CONTROL.php" method="post">
+                  <div class="modal-body">
+                     <div class="margin-bottom: 8px;">
+                         <label for="namaUser" class="form-label">NAMA</label>
+                         <input type="text" class="form-control" name="namaUser" id="namaUser" required>
+                     </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="addDatas">Tambah Data</button>
-                </div>
+                <div class="margin-bottom: 8px;">
+                    <label for="passUser" class="form-label">PASSWORD</label>
+                    <input type="text" class="form-control" name="passUser" id="passUser" required>
+                     </div>
+
+                <div class="margin-bottom: 8px;">
+                      <label for="noUser" class="form-label">NOMOR TELEPON</label>
+                     <input type="number" class="form-control" name="noUser" id="noUser" placeholder="Contoh: 08123456789" required>
+                 </div>
+             </div>
+
+                 <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary" id="addDatas">Tambah Data</button>
+              </div>
+               </form>
+
+                      </div>
+                      </div>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
-
 
     <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="#" method="post">
-                        <div>
-                            <label for="editnamaUser">NAMA</label>
-                            <input type="text" name="editnamaUser" id="editnamaUser" disabled>
-                        </div>
-                        <div>
-                            <label for="editpassUser">PASSWORD</label>
-                            <input type="text" name="editpassUser" id="editpassUser">
-                        </div>
-                        <div>
-                            <label for="editnoUser">Nomer Telp</label>
-                            <input type="number" name="editnoUser" id="editnoUser" placeholder="example : 0123456789">
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="editUsers" onclick="editData()">Edit Data</button>
-                </div>
+                    <h5 class="modal-title" id="editModalLabel">EDIT USER</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                        <form action="#" method="post">
+                    <div class="modal-body">
+                    <div class="margin-bottom: 8px;">
+                        <label for="editnamaUser" class="form-label">NAMA</label>
+                        <input type="text" class="form-control" name="editnamaUser" id="editnamaUser" disabled>
+                    </div>
+
+                     <div class="margin-bottom: 8px;">
+                        <label for="editpassUser" class="form-label">PASSWORD</label>
+                        <input type="text" class="form-control" name="editpassUser" id="editpassUser">
+                     </div>
+
+                    <div class="  margin-bottom: 8px;">
+                      <label for="editnoUser" class="form-label">NOMOR TELEPON</label>
+                      <input type="text" class="form-control" name="editnoUser" id="editnoUser" placeholder="Contoh: 08123456789" required>
+                   </div>
+                 </div>
+                      <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                         <button type="submit" class="btn btn-primary" id="editUsers" onclick="editData()">Edit Data</button>
+                      </div>
                 </form>
             </div>
         </div>
     </div>
+    <style>
+    table th, table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+    table thead {
+        background-color: yellow;
+    }
+</style>
+<table class="table table-bordered" id="userTable"></table>
     <table class="" id="">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th style="color: red;">Password</th>
-                <th>No.Telp</th>
-                <th>Action</th>
+        <thead></thead>
+    <form onsubmit="return false;">
+    <label for="search">Cari:</label>
+    <input type="search" id="searchInput" placeholder="Cari nama user..." onkeyup="filterTable()">
+    <button type="button" onclick="filterTable()">Cari</button>
+</form>
+</thead>
+                <th>NO</th>
+                <th>NAMA USER</th>
+                <th style=>PASSWORD</th>
+                <th>NO TELEPON</th>
+                <th>ACTION</th>
             </tr>
         </thead>
         <tbody>
@@ -187,7 +225,7 @@ $allUser = showAllUser();
             });
 
         }
+        
     </script>
 </body>
-
 </html>

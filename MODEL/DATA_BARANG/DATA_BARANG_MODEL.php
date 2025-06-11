@@ -27,3 +27,27 @@ function showAllBarang(){
     }
     return $data;
 }
+
+function editBarang($kodebarangEdit, $namabarangEdit, $stockbarangEdit, $hargabarangEdit)
+{
+    $conn = dbcon();
+    $tsql = 'UPDATE KS_BARANG SET kode_barang = ?, stok = ?, harga = ? WHERE nama_barang = ?';
+    $params = array($kodebarangEdit, $stockbarangEdit, $hargabarangEdit, $namabarangEdit);
+    $stmt = sqlsrv_query($conn, $tsql, $params);
+    if ($stmt == false) {
+        echo "GAGAL UPDATE";
+    } else {
+        echo "BERHASIL UPDATE";
+    }
+}
+function deleteBarang($utariDeleteBarang)
+{
+    $conn = dbcon();
+    $tsql = "DELETE KS_BARANG WHERE kode_barang = ?";
+    $params = [$utariDeleteBarang];
+    $stmt = sqlsrv_query($conn, $tsql, $params);
+    if ($stmt === false) {
+        die(print_r(sqlsrv_errors(), true));
+    }
+    return true;
+}

@@ -10,6 +10,7 @@ $showSupplier = showAllSupplier();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <script src="../../../ASSET/jquery-3.7.1.js"></script>
   <link rel="stylesheet" href="../../../ASSET/bootstrap-5.3.3/dist/css/bootstrap.min.css">
   <script src="../../../ASSET/bootstrap-5.3.3/dist/js/bootstrap.min.js"></script>
 </head>
@@ -45,17 +46,15 @@ $showSupplier = showAllSupplier();
 
 <body>
   <h2>DATA SUPPLIER</h2>
-
   <button id="Tambah" role="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Tambah</button>
-  <button id="Hapus" role="button">Hapus</button>
   <table>
     <thead>
       <tr>
         <th>NO</th>
         <th>NAMA SUPPLIER</th>
         <th>ALAMAT</th>
-        <th>NO Telp</th>
-        <th>AKSI</th>
+        <th>NO TELEPON</th>
+        <th>ACTION</th>
       </tr>
     </thead>
     <tbody>
@@ -65,14 +64,13 @@ $showSupplier = showAllSupplier();
           <td><?= $data['nama_supplier'] ?></td>
           <td><?= $data['alamat'] ?></td>
           <td><?= $data['no_telp'] ?></td>
-          <td>
-            <button class="btn btn-warning btn-sm editBtn" data-bs-toggle="modal" data-bs-target="#editModal" onclick="ambilDataTable(this)"> Edit </button>
-          </td>
+          <td><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" onclick="ambilEditData(this)">EDIT</button> | <button type="button" class="btn btn-danger" onclick="deleteData(this)">DELETE</button></td>
         </tr>
       <?php endforeach; ?>
     </tbody>
   </table>
   <input type="text" name="" id="cek" oninput="ambilDataInput()">
+
   <!-- Modal Tambah -->
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -107,28 +105,27 @@ $showSupplier = showAllSupplier();
     </div>
   </div>
 
-
   <!-- Modal Edit -->
   <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="editModalLabel">Modal title</h1>
+          <h1 class="modal-title fs-5" id="editModalLabel">Masukkan Supplier</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form action="../../../CONTROL/DATA_SUPPLIER/DATA_SUPPLIER_CONTROL.php" method="post">
             <div>
-              <label for="editNamaS">Kode Barang</label>
+              <label for="editNamaS">Nama Supplier</label>
               <input type="text" name="editNamaS" id="editNamaS">
             </div>
             <div>
-              <label for="editAlamatS">Nama Barang</label>
+              <label for="editAlamatS">Alamat</label>
               <input type="text" name="editAlamatS" id="editAlamatS">
             </div>
             <div>
-              <label for="editNoS">Stock Barang</label>
+              <label for="editNoS">No Telpon</label>
               <input type="text" name="editNoS" id="editNoS">
             </div>
         </div>
@@ -142,7 +139,7 @@ $showSupplier = showAllSupplier();
   </div>
 
   <script>
-    function ambilDataTable(button) {
+    function ambilEditData(button) {
       const row = button.closest('tr');
       const dataSupplier = row.cells['1'].innerText;
       let alamatSupplier = row.cells['2'].innerText;
@@ -153,6 +150,30 @@ $showSupplier = showAllSupplier();
       document.getElementById('editAlamatS').value = alamatSupplier;
       document.getElementById('editNoS').value = noSupplier;
       // document.getElementById('editNamaS').disabled = true;
+    }
+
+    function deleteData(button) {
+      const row = button.closest('tr');
+      const dataSupplier = row.cells['1'].innerText;
+      console.log('DI CEK' + dataSupplier);
+
+      $.ajax({
+        url: '../../../CONTROL/DATA_SUPPLIER/DATA_SUPPLIER_CONTROL.php',
+        type: 'POST',
+        data: {
+          userDelete :dataSupplier,
+        },
+        success: function(response) {
+          console.log("SUKSES LUR");
+          alert('REFRESH HALAMAN?');
+          location.reload();
+        },
+        error: function(response) {
+          console.log("COBA DI CEK LAGI KODE NYA :)");
+          
+        }
+
+      });
 
     }
   </script>

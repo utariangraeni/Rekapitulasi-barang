@@ -26,3 +26,29 @@ function showAllPelanggan(){
     }
     return $data;
 }
+
+function editPelanggan($namaEdit, $alamatEdit, $noEdit)
+{
+    $conn = dbcon();
+    $tsql = 'UPDATE KS_PELANGGAN SET alamat = ?, no_telp = ? WHERE nama_pelanggan = ?';
+    $params = array($alamatEdit, $noEdit, $namaEdit);
+    $stmt = sqlsrv_query($conn, $tsql, $params);
+    if ($stmt == false) {
+        echo "GAGAL UPDATE";
+    } else {
+        echo "BERHASIL UPDATE";
+    }
+
+}
+
+function deletePelanggan($utariDeletePelanggan)
+{
+    $conn = dbcon();
+    $tsql = "DELETE KS_PELANGGAN WHERE nama_pelanggan = ?";
+    $params = [$utariDeletePelanggan];
+    $stmt = sqlsrv_query($conn, $tsql, $params);
+    if ($stmt === false) {
+        die(print_r(sqlsrv_errors(), true));
+    }
+    return true;
+}

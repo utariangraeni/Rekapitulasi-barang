@@ -1,57 +1,244 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Transaksi Pembelian</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .panel-input {
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .panel-input form {
+      margin: 10px; /* Margin 10px pada form */
+    }
+
+    .panel-input .form-row {
+      display: flex;
+      gap: 25px;       /* Jarak antar input diperbesar */
+      margin-bottom: 25px; /* Jarak antar baris form diperbesar */
+    }
+
+    .panel-input .form-group {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .panel-input label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .panel-input input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .panel-input button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .panel-input button:hover {
+      background-color: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #ffffff;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #262525;
+      text-align: center;
+    }
+
+    th {
+      background-color: yellow;
+    }
+
+    .action-buttons button {
+      padding: 5px 10px;
+      margin: 0 3px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .edit-btn {
+      background-color: #ffc107;
+    }
+
+    .delete-btn {
+      background-color: #dc3545;
+    }
+  </style>
 </head>
-<style>
-table {
-  width: 100%;
-  border-collapse: collapse; /* Menghilangkan jarak antara batas sel */
-}
-
-th, td {
-  padding: 8px; /* Spasi di dalam sel */
-  border: 1px solid #262525; /* Batas sel */
-  background-color: #f7f8fa
-
-}
-
-th {
-  text-align: left; /* Posisi horizontal teks header */
-  background-color: yellow;
-
-}
-
-</style>
 <body>
-     <h2>DATA PEMBELIAN</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>NO</th>
-                <th>NAMA BARANG</th>
-                <th>KODE SUPPLIER</th>
-                <th>KODE BARANG</th>
-                <th>JUMLAH</th>
-                <th>HARGA SATUAN</th>
-                <th>TOTAL HARGA</th>
-                <th>TANGGAL</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>01</td>
-                <td>Besi </td>
-                <td>KS001</td>
-                <td>KB001</td>
-                <td>2</td>
-                <td>30000</td>
-                <td>60000</td>
-                <td>26 Mei 2025</td>
-            </tr>
-        </tbody>
-    </table>
+  <h2>TRASAKSI PEMBELIAN</h2>
+
+  <div class="panel-input">
+    <form id="formPembelian">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="namaBarang">Nama Barang</label>
+          <input type="text" id="namaBarang" required>
+        </div>
+        <div class="form-group">
+          <label for="kodeBarang">Kode Barang</label>
+          <input type="text" id="kodeBarang" required>
+        </div>
+        <div class="form-group">
+          <label for="jumlah">Jumlah</label>
+          <input type="number" id="jumlah" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="harga">Harga Satuan</label>
+          <input type="number" id="harga" required>
+        </div>
+        <div class="form-group">
+          <label for="tanggal">Tanggal</label>
+          <input type="date" id="tanggal" required>
+        </div>
+        <div class="form-group" style="display: flex; align-items: end;">
+          <button type="submit" id="tambahBtn">Tambah</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <table id="tabelPembelian">
+    <thead>
+      <tr>
+        <th>NO</th>
+        <th>NAMA BARANG</th>
+        <th>KODE BARANG</th>
+        <th>JUMLAH</th>
+        <th>HARGA SATUAN</th>
+        <th>TOTAL HARGA</th>
+        <th>TANGGAL</th>
+        <th>AKSI</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Baris data akan muncul di sini -->
+    </tbody>
+  </table>
+
+  <script>
+    const form = document.getElementById('formPembelian');
+    const tbody = document.querySelector('#tabelPembelian tbody');
+    let nomor = 1;
+    let editMode = false;
+    let currentRow = null;
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const nama = document.getElementById('namaBarang').value;
+      const kode = document.getElementById('kodeBarang').value;
+      const jumlah = parseInt(document.getElementById('jumlah').value);
+      const harga = parseInt(document.getElementById('harga').value);
+      const tanggal = document.getElementById('tanggal').value;
+      const total = jumlah * harga;
+
+      if (editMode && currentRow) {
+        currentRow.innerHTML = `
+          <td>${currentRow.rowIndex}</td>
+          <td>${nama}</td>
+          <td>${kode}</td>
+          <td>${jumlah}</td>
+          <td>${harga}</td>
+          <td>${total}</td>
+          <td>${tanggal}</td>
+          <td class="action-buttons">
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Hapus</button>
+          </td>
+        `;
+        editMode = false;
+        currentRow = null;
+        document.getElementById('tambahBtn').textContent = 'Tambah';
+      } else {
+        const row = tbody.insertRow();
+        row.innerHTML = `
+          <td>${nomor++}</td>
+          <td>${nama}</td>
+          <td>${kode}</td>
+          <td>${jumlah}</td>
+          <td>${harga}</td>
+          <td>${total}</td>
+          <td>${tanggal}</td>
+          <td class="action-buttons">
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Hapus</button>
+          </td>
+        `;
+      }
+
+      form.reset();
+    });
+
+    tbody.addEventListener('click', function(e) {
+      const target = e.target;
+      const row = target.closest('tr');
+
+      if (target.classList.contains('delete-btn')) {
+        row.remove();
+        renumberRows();
+      }
+
+      if (target.classList.contains('edit-btn')) {
+        const cells = row.children;
+        document.getElementById('namaBarang').value = cells[1].textContent;
+        document.getElementById('kodeBarang').value = cells[2].textContent;
+        document.getElementById('jumlah').value = cells[3].textContent;
+        document.getElementById('harga').value = cells[4].textContent;
+        document.getElementById('tanggal').value = cells[6].textContent;
+
+        editMode = true;
+        currentRow = row;
+        document.getElementById('tambahBtn').textContent = 'Simpan';
+      }
+    });
+
+    function renumberRows() {
+      const rows = tbody.querySelectorAll('tr');
+      nomor = 1;
+      rows.forEach((row) => {
+        row.children[0].textContent = nomor++;
+      });
+    }
+  </script>
 </body>
 </html>
